@@ -5,6 +5,58 @@ HOST: https://mas.dokkeral.com/
 Grobber is a powerful API providing you with all the anime data you could ever need.
 
 # Group Anime
+## Anime [/anime]
+These are the endpoints you'll want to use to search for and enquire more information about Anime.
+
+### Search Anime [GET /anime/search/{?anime}{?language}{?dubbed}{?results}]
+Before you can actually use any of the other endpoints you need to get an Anime. The search endpoint does exactly that.
+Based on a query (i.e. the name of an Anime) it returns matching results.
+
++ Parameters
+    + anime (string, required, `One Piece`) - Title of the Anime
+    + language (string, optional, `en`) - Filter for language, defaults to `en`
+    + dubbed (boolean, optional, `false`) - Filter translation type, defaults to `false`
+    + results (number, optional, `3`) - Amount of (SearchResult)s to return, defaults to `1`
+
++ Response 200 (application/json)
+    + Attributes
+        + anime (array)
+            - (SearchResult)
+
+### Using UID [GET /anime/{?uid}]
+The best way to target an anime is by using its UID. A uid (unique identifier), as its name implies,
+uniquely identifies an Anime, including the language and translation type.
+
++ Parameters
+    + uid (string, required, `masteranime-onepiece-en`) - UID to look for
+
++ Response 200 (application/json)
+    + Attributes
+        + anime (Anime)
+
+### Using Title [GET /anime/{?anime}{?language}{?dubbed}]
+You can also use the Anime's title to identify it.
+> Beware that there might be multiple Anime with the same name!
+
++ Parameters
+    + anime (string, required, `One Piece`) - Title of the Anime
+    + language (string, optional, `en`) - Filter for language, defaults to `en`
+    + dubbed (boolean, optional, `false`) - Filter translation type, defaults to `false`
+
++ Response 200 (application/json)
+    + Attributes
+        + anime (Anime)
+## Episode [/anime/episode]
+Now let's look at the interesting stuff, episodes.
+
+### Get Episode [GET /anime/episode/{?episode}]
++ Parameters
+    + episode (number, required, `5`) - Episode **index** to fetch. Keep in mind that this is the **index** (i.e. it starts from 0 and goes to <amount of episodes> - 1 inclusive!)
+
++ Response 200 (application/json)
+    + Attributes
+        + anime (Anime)
+        + episode (Episode)
 
 # Group Manga
 Coming soon?
@@ -19,7 +71,6 @@ This endpoint is used by [Dolos] to check whether the provided url is valid.
     + Attributes
         + id: `grobber`
         + version: `3.0.4`
-
 # Data Structures
 
 ## Anime (object)
@@ -29,13 +80,18 @@ This endpoint is used by [Dolos] to check whether the provided url is valid.
 + dubbed: false (boolean)
 + updated: `2018-12-30T15:41:23.168227` - ISO 8601 timestamp of last update
 ## Episode (object)
-+ embeds: `https://mp4upload.com/embed-7l251136ll9r.html` (array)
++ embeds: `https://mp4upload.com/embed-7l251136ll9r.html` (array[string])
 + poster: `https://www4.mp4upload.com/i/00457/7l251136ll9r.jpg`
-+ stream (Stream, nullable)
 + updated: `2018-12-30T12:00:36.256000`
++ stream (Stream, nullable)
 ## Stream (object)
 + type: `Mp4Upload`
 + url: `https://mp4upload.com/embed-wwfu2baijbw5.html`
-+ links (array)
++ links: `https://www13.mp4upload.com:282/d/q2x3qydhz3b4quuoywuq2jkgkquu22zm3jnl5cygosqxspoouaepgm6r/video.mp4` (array[string])
 + poster: `https://www13.mp4upload.com/i/00457/wwfu2baijbw5.jpg`
 + updated: `2018-12-30T15:41:23.183197`
+
+## SearchResult (object)
++ anime (Anime)
+    + uid: `whatever`
++ certainty: 0.6 (number) - Number between 0 and 1 (both ends inclusive) denoting the certainty, that this result matches the provided query.
