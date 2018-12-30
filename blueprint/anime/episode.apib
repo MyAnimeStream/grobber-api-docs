@@ -1,0 +1,11 @@
+## Episode [/anime/episode]
+Now let's look at the interesting stuff, episodes.
+
+### Get Episode [GET /anime/episode/{?episode}]
++ Parameters
+    + episode (number, required, `5`) - Episode **index** to fetch. Keep in mind that this is the **index** (i.e. it starts from 0 and goes to <amount of episodes> - 1 inclusive!)
+
++ Response 200 (application/json)
+    + Attributes
+        + anime (Anime)
+        + episode (Episode)
