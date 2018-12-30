@@ -2,7 +2,7 @@
 
 set -e
 
-if [ "$TRAVIS_BRANCH" != "source" ]
+if [ "$TRAVIS_BRANCH" != "master" ]
 then
   echo "This commit was made against the $TRAVIS_BRANCH! No deploy!"
   exit 0
