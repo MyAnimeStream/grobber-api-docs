@@ -1,62 +1,8 @@
-# API Docs [![Travis]][2]
+# Grobber API Docs
+[![Travis]]
 
-Kitsu is a modern anime discovery platform that helps you track the anime you're watching, discover new anime and socialize with other fans.
+API Documentation for [Grobber]
 
----
-**<p align="center">This is our [api docs] repository.<br />Check out the [meta], [client] and [server] repositories.</p>**
 
-[meta]:https://github.com/hummingbird-me/hummingbird
-[client]:https://github.com/hummingbird-me/hummingbird-client
-[server]:https://github.com/hummingbird-me/hummingbird-server
-[api docs]:https://kitsu.docs.apiary.io
-
----
-
-## Contributing
-
-The documentation is written with [API Blueprint][3] and [MSON][4]. Trivial changes can be added using GitHub's built-in editor. For bigger changes it is advised to follow the steps below.
-
-If you have any questions you can:
-- Join our [Discord server][7]
-- Join our Slack by sending an email to josh@kitsu.io
-- Ping [@wopian], [@matthewdias] or [@nuck] on Kitsu.
-
-### Requirements
-
-- [git](https://git-scm.com) > `2.0.0`
-- [node.js](https://nodejs.org) > `8.0.0`
-- [yarn](https://yarnpkg.com) > `1.0.0`
-
-### Development
-
-1. [Fork the repo][5]
-
-2. Clone the repo (`git clone https://github.com/{yourusername}/api-docs.git`)
-
-3. Create a new branch (`git checkout -b improve-docs`)
-
-4. Install dependencies (`yarn`)
-
-5. Make the appropriate changes in the source files
-
-6. Check your changes for issues (`yarn test`)
-
-7. Commit your changes (`git commit -am 'feat: improve docs'`)
-
-8. Push to your branch (`git push origin improve-docs`)
-
-9. [Create a Pull Request][6]
-
-[0]:https://github.com/hummingbird-me/hummingbird-server
-[1]:https://github.com/hummingbird-me/hummingbird-client
-[2]:https://travis-ci.org/hummingbird-me/api-docs
-[3]:https://apiblueprint.org
-[4]:https://github.com/apiaryio/mson
-[5]:https://help.github.com/articles/fork-a-repo/#fork-an-example-repository
-[6]:https://help.github.com/articles/creating-a-pull-request/#creating-the-pull-request
-[7]:https://invite.gg/kitsu
-
-[travis]:https://flat.badgen.net/travis/hummingbird-me/api-docs/source?label=blueprint
-[@wopian]:https://kitsu.io/users/wopian
-[@matthewdias]:https://kitsu.io/users/matthewdias
-[@nuck]:https://kitsu.io/users/nuck
+[grobber]: https://github.com/MyAnimeStream/grobber
+[travis]: https://travis-ci.org/MyAnimeStream/grobber-api-docs

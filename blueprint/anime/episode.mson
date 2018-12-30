@@ -1,0 +1,5 @@
+## Episode (object)
++ embeds: `https://mp4upload.com/embed-7l251136ll9r.html` (array)
++ poster: `https://www4.mp4upload.com/i/00457/7l251136ll9r.jpg`
++ stream (Stream, nullable)
++ updated: `2018-12-30T12:00:36.256000`
