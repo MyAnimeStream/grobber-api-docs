@@ -1,8 +1,9 @@
 # Grobber API Docs
-[![Travis]]
+[![Travis][travis-shield]][travis-url]
 
 API Documentation for [Grobber]
 
 
 [grobber]: https://github.com/MyAnimeStream/grobber
-[travis]: https://travis-ci.org/MyAnimeStream/grobber-api-docs
+[travis-shield]: https://travis-ci.org/MyAnimeStream/grobber-api-docs.svg?branch=master
+[travis-url]: https://travis-ci.org/MyAnimeStream/grobber-api-docs
