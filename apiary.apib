@@ -1,0 +1,116 @@
+FORMAT: 1A
+HOST: https://mas.dokkeral.com
+
+# Grobber
+Grobber is a powerful API providing you with all the anime data you could ever need.
+
+# Group Anime
+## Anime [/anime]
+These are the endpoints you'll want to use to search for and enquire more information about Anime.
+
+### Search Anime [GET /anime/search/{?anime}{?language}{?dubbed}{?results}]
+Before you can actually use any of the other endpoints you need to get an Anime.
+The search endpoint does exactly that.
+Based on a query (i.e. the name of an Anime) it returns matching results.
+
+Depending on the amount of results (up to `20`) you request,
+this operation can take a long time. **You should seldom request search results**
+and if you do you should store the details of the result(s)!
+
+The search results are already sorted in descending order by their `certainty` attribute.
+
++ Parameters
+    + anime (string, required, `One Piece`) - Title of the Anime
+    + language (string, optional, `en`) - Filter for language, defaults to `en`
+    + dubbed (boolean, optional, `false`) - Filter translation type, defaults to `false`
+    + results (number, optional, `3`) - Amount of (SearchResult)s to return, defaults to `1`
+
++ Response 200 (application/json)
+    + Attributes
+        + anime (array)
+            - (SearchResult)
+
+
+### Get Anime using UID [GET /anime/{?uid}]
+The best way to target an anime is by using its UID. A uid (unique identifier), as its name implies,
+uniquely identifies an Anime, including the language and translation type.
+
++ Parameters
+    + uid (string, required, `a-onepiece-masteranime-en`) - UID to look for
+
++ Response 200 (application/json)
+    + Attributes
+        + anime (Anime)
+
+
+### Get Anime using Title [GET /anime/{?anime}{?language}{?dubbed}]
+<a name="anime-using-title"></a>
+You can also use the Anime's title to "identify" it.
+> Beware that there might be multiple Anime with the same name!
+> This method doesn't uniquely identify an Anime.
+
++ Parameters
+    + anime (string, required, `One Piece`) - Title of the Anime
+    + language (string, optional, `en`) - Filter for language, defaults to `en`
+    + dubbed (boolean, optional, `false`) - Filter translation type, defaults to `false`
+
++ Response 200 (application/json)
+    + Attributes
+        + anime (Anime)
+## Episode [/anime/episode]
+Now let's look at the interesting stuff, episodes.
+In order to get an episode you first need to know about the Anime though,
+do read up on that if you haven't already.
+
+### Get Episode [GET /anime/episode/{?uid}{?episode}]
+> Instead of using the uid of an Anime you may also use the same parameters
+> as seen in [**Get Anime using Title**](#anime-using-title)
+
++ Parameters
+    + uid (string, required, `a-onepiece-masteranime-en`) - UID to look for
+    + episode (number, required, `5`) - Episode **index** to fetch. Keep in mind that this is the **index** (i.e. it starts from 0 and goes to \<amount of episodes\> - 1 inclusive!)
+
++ Response 200 (application/json)
+    + Attributes
+        + anime (Anime)
+        + episode (Episode)
+
+# Group Manga
+Coming soon?
+
+# Group Misc
+## Grobber Info [/dolos-info]
+Get some basic information about this Grobber server.
+This endpoint is used by [Dolos] to check whether the provided url is valid.
+
+### Get Info [GET]
++ Response 200 (application/json)
+    + Attributes
+        + id: `grobber`
+        + version: `3.0.4`
+# Data Structures
+
+## Anime (object)
++ title: `One Piece`
++ uid: `a-onepiece-masteranime-en`
++ language: `en`
++ dubbed: false (boolean)
++ thumbnail:  `https://cdn.masterani.me/poster/646ILh0X4F.jpg`
++ episodes: 868 (number)
++ updated: `2018-12-30T15:41:23.168227` - ISO 8601 timestamp of last update
+## Episode (object)
++ embeds: `https://mp4upload.com/embed-7l251136ll9r.html` (array[string])
++ poster: `https://www4.mp4upload.com/i/00457/7l251136ll9r.jpg`
++ stream (Stream, nullable)
++ updated: `2018-12-30T12:00:36.256000`
+## Stream (object)
++ type: `Mp4Upload`
++ url: `https://mp4upload.com/embed-wwfu2baijbw5.html`
++ links: `https://www13.mp4upload.com:282/d/q2x3qydhz3b4quuoywuq2jkgkquu22zm3jnl5cygosqxspoouaepgm6r/video.mp4` (array[string])
++ poster: `https://www13.mp4upload.com/i/00457/wwfu2baijbw5.jpg`
++ updated: `2018-12-30T15:41:23.183197`
+
+## SearchResult (object)
++ anime (Anime)
+    + uid: `whatever`
++ certainty: 0.6 (number) - Number between 0 and 1 (both ends inclusive) denoting the certainty, that this result matches the provided query.
