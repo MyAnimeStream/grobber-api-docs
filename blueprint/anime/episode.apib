@@ -1,9 +1,15 @@
 ## Episode [/anime/episode]
 Now let's look at the interesting stuff, episodes.
+In order to get an episode you first need to know about the Anime though,
+do read up on that if you haven't already.
 
-### Get Episode [GET /anime/episode/{?episode}]
+### Get Episode [GET /anime/episode/{?uid}{?episode}]
+> Instead of using the uid of an Anime you may also use the same parameters
+> as seen in [**Get Anime using Title**](#anime-using-title)
+
 + Parameters
-    + episode (number, required, `5`) - Episode **index** to fetch. Keep in mind that this is the **index** (i.e. it starts from 0 and goes to <amount of episodes> - 1 inclusive!)
+    + uid (string, required, `a-onepiece-masteranime-en`) - UID to look for
+    + episode (number, required, `5`) - Episode **index** to fetch. Keep in mind that this is the **index** (i.e. it starts from 0 and goes to \<amount of episodes\> - 1 inclusive!)
 
 + Response 200 (application/json)
     + Attributes

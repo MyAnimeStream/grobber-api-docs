@@ -1,6 +1,8 @@
 ## Anime (object)
 + title: `One Piece`
-+ uid: `masteranime-onepiece-en`
++ uid: `a-onepiece-masteranime-en`
 + language: `en`
 + dubbed: false (boolean)
++ thumbnail:  `https://cdn.masterani.me/poster/646ILh0X4F.jpg`
++ episodes: 868 (number)
 + updated: `2018-12-30T15:41:23.168227` - ISO 8601 timestamp of last update
