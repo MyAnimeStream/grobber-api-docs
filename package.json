@@ -14,12 +14,12 @@
     "chalk": "^2.4.2",
     "del-cli": "*",
     "drafter.js": "*",
-    "dredd": "^7.0.0",
     "hercule": "*",
     "npm-run-all": "*"
   },
   "devDependencies": {
     "aglio": "*",
-    "aglio-theme-attributable": "*"
+    "aglio-theme-attributable": "*",
+    "dredd": "^7.0.0"
   }
 }
