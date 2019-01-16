@@ -19,6 +19,6 @@ git reset upstream/master
 
 touch .
 
-git add -A apiary.apib
-git commit -a -m "chore: deploy ${rev}"
-git push -q upstream HEAD:master > /dev/null 2>&1
+git add --all --force apiary.apib
+git commit --all --message "chore: deploy ${rev}"
+git push --quiet upstream HEAD:master > /dev/null 2>&1
