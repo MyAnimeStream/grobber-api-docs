@@ -6,7 +6,7 @@ Grobber is a powerful API providing you with all the Anime and Manga
 you could ever need.
 
 **Grobber is not a meta data provider**. If that's what you're looking for,
-refer to the [Kitsu API][kits-api].
+refer to the [Kitsu API][kitsu-api].
 It is an API designed to provide an easy way to fetch Anime episodes
 and Manga chapters.
 
@@ -14,7 +14,20 @@ and Manga chapters.
 
 # Introduction
 ## UID
-UIDs are used to uniquely represent Grobber objects.
+UIDs are used to uniquely represent Grobber objects. The new iteration
+supports both Anime and Manga objects by using a media type prefix.
+
+In theory you could get the media title from the uid, by reversing the encoding
+scheme which is as following:
+
+1. Convert the entire title to lowercase and remove all spaces
+2. Find all non-alphanumeric characters (a-z and 0-9) and replace
+   them according to the following scheme:
+    1. Get the integer Unicode codepoint for this character
+    2. Wrap the hexadecimal representation of said integer with underscores
+
+Of course you would have a bit of a problem reversing the first step, but hey,
+at least it's something, right?
 
 ### Format
 
@@ -22,16 +35,38 @@ EBNF:
 
 ```
 media type = "a" | "m"
-media id = { lowercase letter | digit | "_" }
+escaped character = "_" hexadecimal character { hexadecimal character } "_"
+media id = { lowercase letter | digit | escaped character }
 media source = { lowercase letter }
 language = "en" | "de"
 
 uid = media type "-" media id "-" media source "-" language [ "_dub" ]
 ```
 
-Simplified:
+or simplified:
 
 `media_type-media_id-source-language(_dub)?`
+
+And here's a regular expression to parse an UID if you ever come across one.
+RegExp:
+
+```
+^(a|m)-([a-z0-9_]*)-([a-z]*)-([a-z]+?)(_dub)?$
+```
+
+### Version 1 (Deprecated)
+The previous version of UID had the following format:
+
+```
+media id = { lowercase letter | digit | "_" }
+media source = { lowercase letter }
+language = "en" | "de"
+
+uid = media source "-" media id "-" language [ "_dub" ]
+```
+
+There still might be one or two of these old versions floating around.
+Grobber will accept them as well.
 
 # Examples
 ## Dolos
@@ -44,6 +79,7 @@ Most of the code regarding Grobber can be found in the [`common/state.ts` file][
 
 [dolos]: https://github.com/MyAnimeStream/dolos
 [dolos-state-file]: https://github.com/MyAnimeStream/dolos/blob/master/src/common/state.ts
+
 ## Python CLI
 As an example let us build a simple command line tool to get the url of an episode video.
 I'm gonna use my beloved [f-strings](https://www.python.org/dev/peps/pep-0498/)
@@ -202,8 +238,8 @@ Now what should this function actually do? If you've been a good person you shou
 already know at least the basics about Grobber's endpoints.
 If you don't, here's a quick rundown of the endpoints we're gonna use:
 
-- [`/anime/search`](#anime-search) is used to find an Anime
-- [`/anime/episode`](#episode) is used to retrieve data about an episode
+- [`/anime/search`](#reference/anime/anime/search-anime) is used to find an Anime
+- [`/anime/episode`](#reference/anime/episode/get-episode) is used to retrieve data about an episode
 
 How exactly are we gonna use them? Well, here's the plan:
 
@@ -429,7 +465,6 @@ if __name__ == "__main__":
 These are the endpoints you'll want to use to search for and enquire more information about Anime.
 
 ### Search Anime [GET /anime/search/{?anime}{?language}{?dubbed}{?results}]
-<a name="anime-search"/>
 Before you can actually use any of the other endpoints you need to get an Anime.
 The search endpoint does exactly that.
 Based on a query (i.e. the name of an Anime) it returns matching results.
@@ -453,7 +488,6 @@ The search results are already sorted in descending order by their `certainty` a
 
 
 ### Get Anime using UID [GET /anime/{?uid}]
-<a name="anime-using-uid"/>
 The best way to target an anime is by using its UID. A uid (unique identifier), as its name implies,
 uniquely identifies an Anime, including the language and translation type.
 
@@ -466,7 +500,6 @@ uniquely identifies an Anime, including the language and translation type.
 
 
 ### Get Anime using Title [GET /anime/{?anime}{?language}{?dubbed}]
-<a name="anime-using-title"/>
 You can also use the Anime's title to "identify" it.
 > Beware that there might be multiple Anime with the same name!
 > This method doesn't uniquely identify an Anime.
@@ -479,15 +512,15 @@ You can also use the Anime's title to "identify" it.
 + Response 200 (application/json)
     + Attributes
         + anime (Anime)
+
 ## Episode [/anime/episode]
 Now let's look at the interesting stuff, episodes.
 In order to get an episode you first need to know about the Anime though,
 do read up on that if you haven't already.
 
 ### Get Episode [GET /anime/episode/{?uid}{?episode}]
-<a name="episode"/>
 > Instead of using the uid of an Anime you may also use the same parameters
-> as seen in [**Get Anime using Title**](#anime-using-title)
+> as seen in [**Get Anime using Title**](#reference/anime/anime/get-anime-using-title)
 
 + Parameters
     + uid (string, required, `a-onepiece-masteranime-en`) ... UID to look for
@@ -504,13 +537,15 @@ Coming soon?
 # Group Misc
 ## Grobber Info [/dolos-info]
 Get some basic information about this Grobber server.
-This endpoint is used by [Dolos] to check whether the provided url is valid.
+This endpoint is used by [Dolos](https://github.com/MyAnimeStream/dolos)
+to check whether the provided url is valid.
 
 ### Get Info [GET]
 + Response 200 (application/json)
     + Attributes
         + id: `grobber`
         + version: `3.0.4`
+
 
 # Data Structures
 
@@ -522,11 +557,13 @@ This endpoint is used by [Dolos] to check whether the provided url is valid.
 + thumbnail:  `https://cdn.masterani.me/poster/646ILh0X4F.jpg`
 + episodes: 868 (number)
 + updated: `2018-12-30T15:41:23.168227` - ISO 8601 timestamp of last update
+
 ## Episode (object)
 + embeds: `https://mp4upload.com/embed-7l251136ll9r.html` (array[string])
 + poster: `https://www4.mp4upload.com/i/00457/7l251136ll9r.jpg`
 + stream (Stream, nullable)
 + updated: `2018-12-30T12:00:36.256000`
+
 ## Stream (object)
 + type: `Mp4Upload`
 + url: `https://mp4upload.com/embed-wwfu2baijbw5.html`

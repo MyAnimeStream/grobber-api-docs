@@ -2,7 +2,6 @@
 These are the endpoints you'll want to use to search for and enquire more information about Anime.
 
 ### Search Anime [GET /anime/search/{?anime}{?language}{?dubbed}{?results}]
-<a name="anime-search"/>
 Before you can actually use any of the other endpoints you need to get an Anime.
 The search endpoint does exactly that.
 Based on a query (i.e. the name of an Anime) it returns matching results.
@@ -26,7 +25,6 @@ The search results are already sorted in descending order by their `certainty` a
 
 
 ### Get Anime using UID [GET /anime/{?uid}]
-<a name="anime-using-uid"/>
 The best way to target an anime is by using its UID. A uid (unique identifier), as its name implies,
 uniquely identifies an Anime, including the language and translation type.
 
@@ -39,7 +37,6 @@ uniquely identifies an Anime, including the language and translation type.
 
 
 ### Get Anime using Title [GET /anime/{?anime}{?language}{?dubbed}]
-<a name="anime-using-title"/>
 You can also use the Anime's title to "identify" it.
 > Beware that there might be multiple Anime with the same name!
 > This method doesn't uniquely identify an Anime.
