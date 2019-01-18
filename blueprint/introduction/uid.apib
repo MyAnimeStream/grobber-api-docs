@@ -1,0 +1,19 @@
+## UID
+UIDs are used to uniquely represent Grobber objects.
+
+### Format
+
+EBNF:
+
+```
+media type = "a" | "m"
+media id = { lowercase letter | digit | "_" }
+media source = { lowercase letter }
+language = "en" | "de"
+
+uid = media type "-" media id "-" media source "-" language [ "_dub" ]
+```
+
+Simplified:
+
+`media_type-media_id-source-language(_dub)?`
