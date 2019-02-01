@@ -17,10 +17,13 @@ jobs:
           command: yarn test
       - run:
           name: Deploying
-          command: bash tools/after_success.sh
+          command: bash tools/deploy.sh
 
 workflows:
   version: 2
   main:
     jobs:
-      - install-test-deploy
+      - install-test-deploy:
+          filters:
+            branches:
+              only: docs
