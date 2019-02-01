@@ -1,0 +1,26 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@0.0.7
+
+jobs:
+  install-test-deploy:
+    executor: node/node
+
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: yarn install --production
+      - run:
+          name: Testing
+          command: yarn test
+      - run:
+          name: Deploying
+          command: bash tools/after_success.sh
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - install-test-deploy
