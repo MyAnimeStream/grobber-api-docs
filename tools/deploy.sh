@@ -1,12 +1,5 @@
 #!/bin/bash
-
 set -e
-
-if [ "$TRAVIS_BRANCH" != "docs" ]
-then
-  echo "This commit was made against the $TRAVIS_BRANCH! No deploy!"
-  exit 0
-fi
 
 rev=$(git rev-parse --short HEAD)
 
