@@ -1,6 +1,7 @@
 ## Stream (object)
-+ type: `Mp4Upload`
-+ url: `https://mp4upload.com/embed-wwfu2baijbw5.html`
-+ links: `https://www13.mp4upload.com:282/d/q2x3qydhz3b4quuoywuq2jkgkquu22zm3jnl5cygosqxspoouaepgm6r/video.mp4` (array[string])
-+ poster: `https://www13.mp4upload.com/i/00457/wwfu2baijbw5.jpg`
-+ updated: `2018-12-30T15:41:23.183197`
++ type: `Mp4Upload` (string, required)
++ url: `https://mp4upload.com/embed-wwfu2baijbw5.html` (string, required)
++ links (array[string], required)
+    - `https://www13.mp4upload.com:282/d/q2x3qydhz3b4quuoywuq2jkgkquu22zm3jnl5cygosqxspoouaepgm6r/video.mp4`
++ poster: `https://www13.mp4upload.com/i/00457/wwfu2baijbw5.jpg` (string, nullable)
++ updated: `2018-12-30T15:41:23.183197` (string, optional)

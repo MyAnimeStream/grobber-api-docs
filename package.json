@@ -8,7 +8,7 @@
     "build": "hercule blueprint/grobber.apib -o apiary.apib",
     "validate": "node tools/validate",
     "test": "run-s del build validate",
-    "start": "yarn test && aglio -i apiary.apib -t attributable -s"
+    "start": "npm test && aglio -i apiary.apib -t attributable -s"
   },
   "dependencies": {
     "chalk": "^2.4.2",
@@ -20,6 +20,6 @@
   "devDependencies": {
     "aglio": "*",
     "aglio-theme-attributable": "*",
-    "dredd": "^7.0.0"
+    "dredd": "^9.0.3"
   }
 }

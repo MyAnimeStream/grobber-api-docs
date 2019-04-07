@@ -1,4 +1,6 @@
 ## SearchResult (object)
 + anime (Anime)
-    + uid: `whatever`
-+ certainty: 0.6 (number) - Number between 0 and 1 (both ends inclusive) denoting the certainty, that this result matches the provided query.
+    + uid: `a-onepiece-en`
++ certainty: 0.6 (number) - Non-negative number denoting the certainty, that this result matches the provided query.
+    Depending on the search endpoint this may or may not be interpreted as a percentage.
+    However, bigger is always better.

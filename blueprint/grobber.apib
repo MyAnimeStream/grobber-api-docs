@@ -5,12 +5,14 @@ HOST: https://mas.dokkeral.com
 Grobber is a powerful API providing you with all the Anime and Manga
 you could ever need.
 
-**Grobber is not a meta data provider**. If that's what you're looking for,
-refer to the [Kitsu API][kitsu-api].
-It is an API designed to provide an easy way to fetch Anime episodes
-and Manga chapters.
+**Grobber is not a meta data provider**. If that's what you're looking
+for, refer to the [Kitsu API][kitsu-api]. It is an API designed to
+provide an easy way to fetch Anime episodes.
 
 [kitsu-api]: https://kitsu.docs.apiary.io
+
+Due to the way it's designed Grobber is also rather slow as most
+operations are only performed once requested.
 
 # Introduction
 :[](introduction/uid.apib)
@@ -18,15 +20,10 @@ and Manga chapters.
 # Examples
 :[](examples/dolos.apib)
 
-:[](examples/python-cli.apib)
-
 # Group Anime
 :[](anime/anime.apib)
 
 :[](anime/episode.apib)
-
-# Group Manga
-Coming soon?
 
 # Group Misc
 :[](misc/info.apib)

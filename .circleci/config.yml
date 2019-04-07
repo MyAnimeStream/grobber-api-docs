@@ -11,10 +11,10 @@ jobs:
       - checkout
       - node/with-cache:
           steps:
-            - run: yarn install --production
+            - run: npm install --production
       - run:
           name: Testing
-          command: yarn test
+          command: npm test
       - run:
           name: Deploying
           command: bash tools/deploy.sh

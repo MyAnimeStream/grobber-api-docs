@@ -1,0 +1,4 @@
+## Medium (object)
++ Include Anime
++ aliases (array) - Array of aliases
++ episode_count: 868 (number, required) - Same as `episodes`

@@ -1,10 +1,13 @@
 ## Anime [/anime]
-These are the endpoints you'll want to use to search for and enquire more information about Anime.
+These are the endpoints you'll want to use to search for and enquire
+more information about Anime.
 
-### Search Anime [GET /anime/search/{?anime}{?language}{?dubbed}{?results}]
-Before you can actually use any of the other endpoints you need to get an Anime.
-The search endpoint does exactly that.
+
+### Search Anime [GET /anime/search/{?anime}{?language}{?dubbed}{?group}{?results}]
 Based on a query (i.e. the name of an Anime) it returns matching results.
+
+Use this endpoint to get an accurate match for a title, for actual
+search requests you should use the indexsearch endpoint.
 
 Depending on the amount of results (up to `20`) you request,
 this operation can take a long time. **You should seldom request search results**
@@ -13,10 +16,44 @@ and if you do you should store the details of the result(s)!
 The search results are already sorted in descending order by their `certainty` attribute.
 
 + Parameters
-    + anime (string, required, `One Piece`) ... Title of the Anime
-    + language (string, optional, `en`) ... Filter for language, defaults to `en`
-    + dubbed (boolean, optional, `false`) ... Filter translation type, defaults to `false`
-    + results (number, optional, `3`) ... Amount of (SearchResult)s to return, defaults to `1`
+  +   anime (string, required, `One Piece`) ... Title of the Anime
+  +   language (string, optional, `en`) ... Filter for language, defaults
+      to `en`
+  +   dubbed (boolean, optional, `false`) ... Filter translation type,
+      defaults to `false`
+  +   group (boolean, optional, `true`) ... Whether or not to group
+      results with the same medium id or not, defaults to `true`
+  +   results (number, optional, `3`) ... Amount of (SearchResult)s to
+      return, defaults to `1`
+
++ Response 200 (application/json)
+    + Attributes
+        + anime (array)
+            - (SearchResult)
+
+
+
+### Search Anime in index [GET /anime/indexsearch/{?query}{?language}{?dubbed}{?group}{?page}{?results}]
+
+Searching for multiple anime using the `search` endpoint is slow. If you
+want to search for a lot of results or simply need speedy results you
+can use this endpoint.
+
+This endpoint also supports pagination using the page parameter. The
+result items are (Medium) objects.
+
++ Parameters
+  +   query (string, required, `One Piece`) ... Query to search for
+  +   language (string, optional, `en`) ... Filter for language,
+      defaults to `en`
+  +   dubbed (boolean, optional, `false`) ... Filter translation type,
+      defaults to `false`
+  +   group (boolean, optional, `true`) ... Whether or not to group
+      results with the same medium id or not, defaults to `true`
+  +   page (number, optional, `0`) ... Page index to return, defaults to
+      0
+  +   results (number, optional, `20`) ... Amount of (SearchResult)s to
+      return for the page, defaults to 20
 
 + Response 200 (application/json)
     + Attributes
@@ -37,6 +74,9 @@ uniquely identifies an Anime, including the language and translation type.
 
 
 ### Get Anime using Title [GET /anime/{?anime}{?language}{?dubbed}]
+
+**Status**: Deprecated, use UIDs.
+
 You can also use the Anime's title to "identify" it.
 > Beware that there might be multiple Anime with the same name!
 > This method doesn't uniquely identify an Anime.
@@ -45,6 +85,8 @@ You can also use the Anime's title to "identify" it.
     + anime (string, required, `One Piece`) ... Title of the Anime
     + language (string, optional, `en`) ... Filter for language, defaults to `en`
     + dubbed (boolean, optional, `false`) ... Filter translation type, defaults to `false`
+    + group (boolean, optional, `true`) ... Group results with the same
+        medium id, defaults to `true`.
 
 + Response 200 (application/json)
     + Attributes

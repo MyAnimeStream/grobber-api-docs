@@ -1,9 +1,10 @@
 ## UID
-UIDs are used to uniquely represent Grobber objects. The new iteration
-supports both Anime and Manga objects by using a media type prefix.
+UIDs are used to uniquely represent Grobber objects. They are an
+essential part of interacting with the API.
 
-In theory you could get the media title from the uid, by reversing the encoding
-scheme which is as following:
+Each UID composes all the necessary information to identify an entity.
+The most variadic part of an UID is the medium id which is derived from
+the title of the medium and sanitised using the following steps:
 
 1. Convert the entire title to lowercase and remove all spaces
 2. Find all non-alphanumeric characters (a-z and 0-9) and replace
@@ -11,44 +12,50 @@ scheme which is as following:
     1. Get the integer Unicode codepoint for this character
     2. Wrap the hexadecimal representation of said integer with underscores
 
-Of course you would have a bit of a problem reversing the first step, but hey,
-at least it's something, right?
+UIDs without a medium source refer to groups. Groups combine all mediums
+with the same medium id.
+
 
 ### Format
 
 EBNF:
 
 ```
-media type = "a" | "m"
-escaped character = "_" hexadecimal character { hexadecimal character } "_"
-media id = { lowercase letter | digit | escaped character }
-media source = { lowercase letter }
-language = "en" | "de"
+medium type         = "a" | "m" ;
 
-uid = media type "-" media id "-" media source "-" language [ "_dub" ]
+escaped character   = "_" , hexadecimal character , { hexadecimal character } , "_" ;
+medium id character = lowercase letter | digit | escaped character ;
+medium id           = medium id character , { medium id character } ;
+
+medium source       = lowercase letter , { lowercase letter } ;
+language            = "en" | "de" ;
+
+uid                 = medium type , "-" , medium id , [ "-" , medium source ] , "-" , language , [ "_dub" ] ;
 ```
 
 or simplified:
 
-`media_type-media_id-source-language(_dub)?`
+`medium_type-medium_id(-source?)-language(_dub)?`
 
 And here's a regular expression to parse an UID if you ever come across one.
 RegExp:
 
 ```
-^(a|m)-([a-z0-9_]*)-([a-z]*)-([a-z]+?)(_dub)?$
+^(a|m)-([a-z0-9_]*)(?:-([a-z]*))?-([a-z]+?)(_dub)?$
 ```
 
 ### Version 1 (Deprecated)
-The previous version of UID had the following format:
+The previous version of the UID format had the following format:
 
 ```
-media id = { lowercase letter | digit | "_" }
-media source = { lowercase letter }
-language = "en" | "de"
+medium id character = lowercase letter | digit | "_" ;
+medium id           = medium id character , { medium id character } ;
 
-uid = media source "-" media id "-" language [ "_dub" ]
+medium source       = lowercase letter , { lowercase letter } ;
+language            = "en" | "de" ;
+
+uid                 = medium source , "-" , medium id , "-" , language , [ "_dub" ] ;
 ```
 
-There still might be one or two of these old versions floating around.
-Grobber will accept them as well.
+Grobber still accepts it but you shouldn't use it as the format can't
+encode all possible medium ids.
